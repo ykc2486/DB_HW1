@@ -1,5 +1,3 @@
-# Managing and analyzing the LEGO Database with SQL
-
 ## Part 1. Import Data
 
 ### Step 1: Understand the database schema and relationships
@@ -35,11 +33,21 @@ So I will import the tables in the following order:
 ### Step 2: Create tables in PostgreSQL
 
 For each table, I will first use the `CREATE TABLE` statement to define the table structure. (See `createTables.sql` for details.)
-
+For example, for the `sets` table, the SQL statement is as follows:
+```sql
+CREATE TABLE sets (
+    set_num VARCHAR(32) PRIMARY KEY,
+    name VARCHAR(128) NOT NULL,
+    year INT NOT NULL,
+    theme_id INT NOT NULL,
+    num_parts INT NOT NULL,
+    FOREIGN KEY (theme_id) REFERENCES themes(id)
+);
+```
 
 
 Then, using:
-```cmd
+```powershell
 psql -U postgres -d hw1 -a -f ./SQLs/createTables.sql
 ```
 ![image](./screenshots/create.png)

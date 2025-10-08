@@ -45,9 +45,8 @@ CREATE TABLE inventory_parts (
     color_id INT NOT NULL,
     quantity INT NOT NULL,
     is_spare BOOLEAN NOT NULL,
-    PRIMARY KEY (inventory_id, part_num, color_id),
+    PRIMARY KEY (inventory_id, color_id),
     FOREIGN KEY (inventory_id) REFERENCES inventories(id),
-    FOREIGN KEY (part_num) REFERENCES parts(part_num),
     FOREIGN KEY (color_id) REFERENCES colors(id)
 );
 
