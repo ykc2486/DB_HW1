@@ -86,60 +86,67 @@ psql -U postgres -d hw1 -a -f ./SQLs/createTables.sql
 
 ### 4. `sets`
 
-| Attribute   | Data Type      | Constraints                         |
-| ----------- | -------------- | ----------------------------------- |
-| `set_num`   | `VARCHAR(32)`  | Primary Key                         |
-| `name`      | `VARCHAR(128)` | NOT NULL                            |
-| `year`      | `INT`          | NOT NULL                            |
-| `theme_id`  | `INT`          | NOT NULL，Foreign Key → `themes(id)` |
-| `num_parts` | `INT`          | NOT NULL                            |
+| Attribute   | Data Type      | Constraints                                  |
+| ----------- | -------------- | -------------------------------------------- |
+| `set_num`   | `VARCHAR(32)`  | Primary Key                                  |
+| `name`      | `VARCHAR(128)` | NOT NULL                                     |
+| `year`      | `INT`          | NOT NULL                                     |
+| `theme_id`  | `INT`          | NOT NULL, Foreign Key → `themes(id)`         |
+| `num_parts` | `INT`          | NOT NULL                                     |
 
 ---
 
 ### 5. `parts`
 
-| Attribute     | Data Type      | Constraints                                  |
-| ------------- | -------------- | -------------------------------------------- |
-| `part_num`    | `VARCHAR(32)`  | Primary Key                                  |
-| `name`        | `VARCHAR(256)` | NOT NULL                                     |
-| `part_cat_id` | `INT`          | NOT NULL，Foreign Key → `part_categories(id)` |
+| Attribute     | Data Type      | Constraints                                          |
+| ------------- | -------------- | ---------------------------------------------------- |
+| `part_num`    | `VARCHAR(32)`  | Primary Key                                          |
+| `name`        | `VARCHAR(256)` | NOT NULL                                             |
+| `part_cat_id` | `INT`          | NOT NULL, Foreign Key → `part_categories(id)`        |
 
 ---
 
 ### 6. `inventories`
 
-| Attribute | Data Type     | Constraints                            |
-| --------- | ------------- | -------------------------------------- |
-| `id`      | `INT`         | Primary Key                            |
-| `version` | `INT`         | NOT NULL                               |
-| `set_num` | `VARCHAR(32)` | NOT NULL，Foreign Key → `sets(set_num)` |
+| Attribute | Data Type     | Constraints                                   |
+| --------- | ------------- | --------------------------------------------- |
+| `id`      | `INT`         | Primary Key                                   |
+| `version` | `INT`         | NOT NULL                                      |
+| `set_num` | `VARCHAR(32)` | NOT NULL, Foreign Key → `sets(set_num)`       |
 
 ---
 
 ### 7. `inventory_parts`
 
-| Attribute       | Data Type                            | Constraints                              |
-| --------------- | ------------------------------------ | ---------------------------------------- |
-| `inventory_id`  | `INT`                                | NOT NULL，Foreign Key → `inventories(id)` |
-| `part_num`      | `VARCHAR(32)`                        | NOT NULL，Foreign Key → `parts(part_num)` |
-| `color_id`      | `INT`                                | NOT NULL，Foreign Key → `colors(id)`      |
-| `quantity`      | `INT`                                | NOT NULL                                 |
-| `is_spare`      | `BOOLEAN`                            | NOT NULL                                 |
-| **Primary Key** | `(inventory_id, part_num, color_id)` | composite primary key                                     |
+| Attribute      | Data Type      | Constraints                                             |
+| -------------- | -------------- | ------------------------------------------------------- |
+| `inventory_id` | `INT`          | NOT NULL, Foreign Key → `inventories(id)`               |
+| `part_num`     | `VARCHAR(32)`  | NOT NULL                                                |
+| `color_id`     | `INT`          | NOT NULL, Foreign Key → `colors(id)`                    |
+| `quantity`     | `INT`          | NOT NULL                                                |
+| `is_spare`     | `BOOLEAN`      | NOT NULL                                                |
+
+Note: In `createTables.sql` there is no PRIMARY KEY declared for `inventory_parts`, and `part_num` is not defined as a foreign key in the DDL.
 
 ---
 
 ### 8. `inventory_sets`
 
-| Attribute       | Data Type                 | Constraints                              |
-| --------------- | ------------------------- | ---------------------------------------- |
-| `inventory_id`  | `INT`                     | NOT NULL，Foreign Key → `inventories(id)` |
-| `set_num`       | `VARCHAR(32)`             | NOT NULL，Foreign Key → `sets(set_num)`   |
-| `quantity`      | `INT`                     | NOT NULL                                 |
-| **Primary Key** | `(inventory_id, set_num)` | composite primary key                                     |
+| Attribute       | Data Type                 | Constraints                                         |
+| --------------- | ------------------------- | --------------------------------------------------- |
+| `inventory_id`  | `INT`                     | NOT NULL, Foreign Key → `inventories(id)`           |
+| `set_num`       | `VARCHAR(32)`             | NOT NULL, Foreign Key → `sets(set_num)`             |
+| `quantity`      | `INT`                     | NOT NULL                                            |
+| **Primary Key** | `(inventory_id, set_num)` | composite primary key (defined in DDL)              |
 
 ---
 
 ### Step 3: Import data into tables
 using the `COPY` command to import data from CSV files into the corresponding tables. (See `importData.sql` for details.)
 
+For example, for the `themes` table, the SQL statement is as follows:
+```sql
+\copy themes FROM './archive/themes.csv' WITH (FORMAT csv, HEADER true, DELIMITER ',', ENCODING 'UTF8');
+```
+
+So and so on for the other tables.
