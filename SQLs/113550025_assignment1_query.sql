@@ -111,3 +111,68 @@ WHERE
     LIMIT 1
   );
 
+-- Question 8:
+SELECT 
+    t.name AS theme_name,
+    t.id AS theme_id
+FROM 
+    themes AS t
+LEFT JOIN 
+    sets ON t.id = sets.theme_id
+WHERE
+    sets.theme_id IS NULL;
+
+-- Question 9:
+SELECT
+  c.name AS color_name,
+  c.rgb AS color_rgb,
+  SUM(ip.quantity) AS total_quantity,
+  COUNT(DISTINCT iset.set_num) AS set_count
+FROM
+  colors AS c
+INNER JOIN
+  inventory_parts AS ip ON c.id = ip.color_id
+INNER JOIN
+  inventory_sets AS iset ON ip.inventory_id = iset.inventory_id
+GROUP BY
+  c.id,
+  c.name,
+  c.rgb
+ORDER BY
+  total_quantity DESC
+LIMIT 5;
+
+-- Bonus 1:
+SELECT name, year
+FROM 
+    sets 
+WHERE 
+    name LIKE '%Castle%'
+    AND name LIKE '%Dragon%';
+
+-- Bonus 2:
+SELECT
+  (
+    SELECT
+      COUNT(*)
+    FROM
+      sets
+  ) AS total_number_of_sets,
+  (
+    SELECT
+      COUNT(DISTINCT part_num)
+    FROM
+      parts
+  ) AS total_number_of_unique_parts,
+  (
+    SELECT
+      COUNT(*)
+    FROM
+      themes
+  ) AS total_number_of_themes,
+  (
+    SELECT
+      ROUND(AVG(num_parts), 0)
+    FROM
+      sets
+  ) AS average_parts_per_set;
