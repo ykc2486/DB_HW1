@@ -1,8 +1,6 @@
 \encoding UTF8
 
 -- Question 1:
-SELECT COUNT(*) FROM sets WHERE year = 2011;
-
 SELECT set_num, name, num_parts FROM sets
 WHERE year = 2011
 ORDER BY num_parts DESC
@@ -15,17 +13,6 @@ WHERE year >= 2001 AND year <= 2005
 GROUP BY year;
 
 -- Question 3:
-SELECT 
-    COUNT(*) AS total_relationships
-FROM 
-    inventory_sets AS inv_s
-INNER JOIN
-    inventories AS inv ON inv_s.inventory_id = inv.id
-INNER JOIN
-    sets AS parent_s ON inv.set_num = parent_s.set_num
-INNER JOIN
-    sets AS included_s ON inv_s.set_num = included_s.set_num;
-
 SELECT 
     parent_s.name AS parent_set_name,
     included_s.name AS included_set_name
@@ -61,3 +48,66 @@ LEFT JOIN
 WHERE 
     pt.name LIKE 'Star Wars%' OR ct.name LIKE 'Star Wars%'
 LIMIT 20;
+
+-- Question 5:
+SELECT 
+    pc.name AS category_name,
+    SUM(ip.quantity) AS total_quantity
+FROM part_categories AS pc
+JOIN parts AS p ON pc.id = p.part_cat_id
+JOIN inventory_parts AS ip ON p.part_num = ip.part_num
+GROUP BY pc.name
+HAVING SUM(ip.quantity) > 50000;
+
+-- Question 6:
+WITH each_theme AS (
+    SELECT
+        t.id AS theme_id,
+        COUNT(sets.set_num) AS set_count
+    FROM
+        themes AS t
+    JOIN sets
+      ON t.id = sets.theme_id
+    GROUP BY
+        t.id
+)
+SELECT
+    ParentTheme.name AS theme_name,
+    SUM(each_theme.set_count) AS total_sets
+FROM
+    each_theme
+INNER JOIN themes AS ChildTheme
+  ON each_theme.theme_id = ChildTheme.id    
+INNER JOIN themes AS ParentTheme
+  ON (
+    CASE WHEN ChildTheme.parent_id IS NOT NULL THEN ChildTheme.parent_id
+    ELSE ChildTheme.id
+    END
+  ) = ParentTheme.id
+GROUP BY
+    ParentTheme.name
+ORDER BY
+    total_sets DESC
+LIMIT 1; 
+
+-- Question 7:
+SELECT
+  s.set_num,
+  s.name,
+  s.year,
+  s.num_parts
+FROM
+  sets s
+WHERE
+  s.year = (
+    SELECT
+      year
+    FROM
+      sets
+    GROUP BY
+      year
+    ORDER BY
+      AVG(num_parts) DESC
+    LIMIT 1
+  );
+
