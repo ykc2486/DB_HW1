@@ -3,8 +3,7 @@
 -- Question 1:
 SELECT set_num, name, num_parts FROM sets
 WHERE year = 2011
-ORDER BY num_parts DESC
-LIMIT 20;
+ORDER BY num_parts DESC;
 
 -- Question 2:
 SELECT year, COUNT(DISTINCT set_num)
@@ -25,8 +24,7 @@ INNER JOIN
 INNER JOIN
     sets AS included_s ON inv_s.set_num = included_s.set_num
 ORDER BY
-    parent_s.name, included_s.name
-LIMIT 20;
+    parent_s.name, included_s.name;
 
 -- Question 4:
 SELECT 
@@ -46,8 +44,7 @@ JOIN
 LEFT JOIN 
     themes AS pt ON ct.parent_id = pt.id
 WHERE 
-    pt.name LIKE 'Star Wars%' OR ct.name LIKE 'Star Wars%'
-LIMIT 20;
+    pt.name LIKE 'Star Wars%' OR ct.name LIKE 'Star Wars%';
 
 -- Question 5:
 SELECT 
