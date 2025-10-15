@@ -31,12 +31,7 @@ SELECT
     s.name AS set_name,
     s.year,
     ct.name AS child_theme,
-    pt.name AS parent_theme,
-       (SELECT COUNT(*)
-        FROM sets AS s2
-        JOIN themes AS ct2 ON s2.theme_id = ct2.id
-        LEFT JOIN themes AS pt2 ON ct2.parent_id = pt2.id
-        WHERE pt2.name LIKE 'Star Wars%' OR ct2.name LIKE 'Star Wars%') AS total_count
+    pt.name AS parent_theme
 FROM 
     sets AS s
 JOIN 
