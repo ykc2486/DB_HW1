@@ -119,13 +119,13 @@ SELECT
   c.name AS color_name,
   c.rgb AS color_rgb,
   SUM(ip.quantity) AS total_quantity,
-  COUNT(DISTINCT iset.set_num) AS set_count
+  COUNT(DISTINCT i.set_num) AS set_count
 FROM
   colors AS c
 INNER JOIN
   inventory_parts AS ip ON c.id = ip.color_id
 INNER JOIN
-  inventory_sets AS iset ON ip.inventory_id = iset.inventory_id
+  inventories AS i ON ip.inventory_id = i.id
 GROUP BY
   c.id,
   c.name,

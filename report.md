@@ -1,4 +1,7 @@
 ## Part 1. Import Data
+### You can visit the github repo [here](https://github.com/ykc2486/DB_HW1) to see the code files.
+
+---
 
 ### Step 1: Understand the database schema and relationships
 Decide each tables' primary key and foreign key. And we should **firstly import the tables that do not have foreign keys.**
@@ -32,6 +35,10 @@ So I will import the tables in the following order:
 
 ### Step 2: Create tables in PostgreSQL
 
+Firstly, create a new database named `hw1` in PostgreSQL:
+```sql
+CREATE DATABASE hw1;
+```
 For each table, I will first use the `CREATE TABLE` statement to define the table structure. (See `createTables.sql` for details.)
 For example, for the `sets` table, the SQL statement is as follows:
 ```sql
@@ -50,9 +57,7 @@ Then, using:
 ```powershell
 psql -U postgres -d hw1 -a -f ./SQLs/createTables.sql
 ```
-![image](./screenshots/create.png)
-
----
+to execute the SQL script to create all the tables in the `hw1` database.
 
 ### 1. `themes`
 
@@ -148,5 +153,10 @@ For example, for the `themes` table, the SQL statement is as follows:
 ```sql
 \copy themes FROM './archive/themes.csv' WITH (FORMAT csv, HEADER true, DELIMITER ',', ENCODING 'UTF8');
 ```
+Notice that the `ENCODING 'UTF8'` option is specified to handle any special characters in the data.
 
-So and so on for the other tables.
+Then, using:
+```powershell
+psql -U postgres -d hw1 -a -f ./SQLs/importData.sql
+```
+to execute the SQL script to import data into all the tables in the `hw1` database

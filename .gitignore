@@ -1,2 +1,4 @@
 staged.sql
 
+# Ignore pdf files
+*.pdf

@@ -1,5 +1,5 @@
 # Part 2. Writing your SQL
-
+### You can visit the github repo [here](https://github.com/ykc2486/DB_HW1) to see the code files.
 
 ## Question 1
 ![q1_query&result](./screenshots/q1_q.png)
