@@ -147,7 +147,7 @@ Note: In `createTables.sql` there is no PRIMARY KEY declared for `inventory_part
 ---
 
 ### Step 3: Import data into tables
-using the `COPY` command to import data from CSV files into the corresponding tables. (See `importData.sql` for details.)
+using the `COPY` command to import data from CSV files into the corresponding tables. (See `importData.sql` for details.) ([reference](https://docs.postgresql.tw/reference/sql-commands/copy/))
 
 For example, for the `themes` table, the SQL statement is as follows:
 ```sql
@@ -160,3 +160,6 @@ Then, using:
 psql -U postgres -d hw1 -a -f ./SQLs/importData.sql
 ```
 to execute the SQL script to import data into all the tables in the `hw1` database
+
+### References
+- [PostgreSQL Documentation: COPY](https://docs.postgresql.tw/reference/sql-commands/copy)
